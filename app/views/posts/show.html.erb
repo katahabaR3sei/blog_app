@@ -1,0 +1,24 @@
+<h2><%= @post.title %></h2>
+<p><%= simple_format @post.body %></p>
+
+<h3>コメント</h3>
+
+<% if @post.comments.any? %>
+  <ul>
+  <% @post.comments.each do |comment|%>
+    <li>
+      <%= comment.body %>
+      <%= link_to "[削除]", post_comment_path(@post,comment), method: :delete, class:"command",data: { confirm: "本当に消しちゃうの？"} %>
+    </li>
+  <% end %>
+  </ul>
+<% end %>
+<%= form_for([@post, @post.comments.build]) do |f| %>
+  <p>
+  <%= f.text_field :body %>
+  </p>
+  <p>
+  <%= f.submit "コメント" %>
+  
+  </p>
+<% end %>
